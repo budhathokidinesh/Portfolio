@@ -118,6 +118,7 @@ header {
 /* <!-- hero section  --> */
 .hero-section {
   margin-top: 5rem;
+  padding-top: 7rem;
   /* max-height: 60vh; */
 }
 .hero {
@@ -195,6 +196,7 @@ header {
 /* <!-- skills section  --> */
 .skills {
   margin-top: 5rem;
+  padding-top: 7rem;
 }
 .skills-container {
   justify-content: space-between;
@@ -211,6 +213,7 @@ header {
 /* <!-- projects section --> */
 .projects {
   margin-top: 5rem;
+  padding-top: 7rem;
 }
 .projects .project-container {
   grid-template-columns: repeat(2, 1fr);
@@ -306,4 +309,15 @@ footer .top ul {
 }
 footer .top ul li {
   line-height: 1.5rem;
+}
+.goUp {
+  font-size: 3rem;
+  background: var(--color-orange);
+  padding: 0, 3rem;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  position: fixed;
+  right: 20px;
+  bottom: 60px;
 }
