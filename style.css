@@ -209,7 +209,22 @@ header {
   font-size: 3rem;
 }
 /* <!-- projects section --> */
-
+.projects {
+  margin-top: 5rem;
+}
+.projects .project-container {
+  grid-template-columns: repeat(2, 1fr);
+}
+.projects .project-card {
+  box-shadow: var(--shadow);
+  border-radius: 5px;
+}
+.project-card .links {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+  gap: 1rem;
+}
 /* <!-- about section --> */
 
 /* <!-- contact section  --> */
