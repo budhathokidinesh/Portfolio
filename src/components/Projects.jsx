@@ -4,6 +4,7 @@ import dnsstore from "../assets/dnsstore.jpg";
 import livechat from "../assets/livechat.jpg";
 import realestate from "../assets/realestate.jpg";
 import time from "../assets/time.jpg";
+//image error is fixed
 const Projects = () => {
   const projectData = [
     {
