@@ -13,7 +13,7 @@ const MobileMenu = ({ isOpen, onClose }) => {
 
       {/* Drawer */}
       <div
-        className={`fixed top-0 right-0 h-3/2 w-1/2 bg-gray-700 z-50 shadow-lg transform transition-transform duration-300 rounded-xl ${
+        className={`fixed top-0 right-0 h-3/4 w-1/2 bg-gray-700 z-50 shadow-lg transform transition-transform duration-300 rounded-xl ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
