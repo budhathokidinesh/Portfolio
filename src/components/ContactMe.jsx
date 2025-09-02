@@ -43,10 +43,10 @@ const ContactMe = () => {
         {/* Contact Details */}
         <div className="flex flex-col md:flex-row justify-center items-center gap-6 mb-10">
           <a
-            href="mailto:physmarika@gmail.com"
+            href="dineshbudhathoki.dev@gmail.com"
             className="flex items-center gap-2 text-gray-200 hover:text-yellow-400 transition"
           >
-            <FaEnvelope /> physmarika@gmail.com
+            <FaEnvelope /> dineshbudhathoki.dev@gmail.com
           </a>
 
           <a

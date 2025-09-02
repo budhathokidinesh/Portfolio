@@ -42,9 +42,16 @@ const Footer = () => {
             <div className="flex space-x-4 mb-6 justify-center">
               <FaFacebookF className="size-10 hover:text-yellow-400 cursor-pointer" />
               <FaInstagram className="size-10 hover:text-yellow-400 cursor-pointer" />
-              <FaTwitter className="size-10 hover:text-yellow-400 cursor-pointer" />
+
               <a
-                href="www.linkedin.com/in/dineshbudhathoki"
+                href="https://x.com/dinesbudhathoki"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FaTwitter className="size-10 hover:text-yellow-400 cursor-pointer" />
+              </a>
+              <a
+                href="https://github.com/budhathokidinesh"
                 target="_blank"
                 rel="noopener noreferrer"
               >

@@ -1,7 +1,14 @@
 import { Link } from "react-router-dom";
 import dbImage from "../assets/db.jpg";
+import { useState } from "react";
+
+import { TiThMenu } from "react-icons/ti";
+import { RxCross2 } from "react-icons/rx";
+import MobileMenu from "./MobileMenu";
 
 const Header = () => {
+  const [open, setOpen] = useState(false);
+
   return (
     <header className="sticky top-0 z-50 bg-gradient-to-r from-gray-900 via-gray-800 to-black shadow-md">
       <div className="container mx-auto flex justify-between items-center h-16 px-6">
@@ -68,9 +75,15 @@ const Header = () => {
 
         {/* Mobile Menu (optional for future) */}
         <div className="md:hidden">
-          {/* Add a hamburger menu icon here if needed */}
+          <button
+            onClick={() => setOpen(true)}
+            className="md:hidden text-gray-300 hover:text-yellow-400"
+          >
+            <TiThMenu size={28} />
+          </button>
         </div>
       </div>
+      <MobileMenu isOpen={open} onClose={() => setOpen(false)} />
     </header>
   );
 };
