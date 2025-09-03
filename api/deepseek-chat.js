@@ -1,5 +1,3 @@
-// In your api/deepseek-chat.js
-
 import axios from "axios";
 
 export default async function handler(req, res) {
@@ -8,14 +6,14 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { messages } = req.body; // This now receives the full messages array
+    const { messages } = req.body;
     const DEEPSEEK_API_KEY = process.env.DEEPSEEK_API_KEY;
 
     const response = await axios.post(
       "https://api.deepseek.com/chat/completions",
       {
         model: "deepseek-chat",
-        messages: messages, // Pass through the messages directly
+        messages: messages,
         stream: false,
       },
       {
