@@ -1,4 +1,6 @@
-import axios from "axios";
+import { GoogleGenerativeAI } from "@google/generative-ai";
+
+const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
 
 export async function sendChatToAI(messages) {
   const systemPrompt = `You are an AI assistant for Dinesh Budhathoki.
@@ -23,7 +25,7 @@ User: "Does he have a LinkedIn or GitHub profile?"
 AI: "Yes, you can find him on LinkedIn at [https://linkedin.com/in/dineshbudhathoki] and GitHub at [https://github.com/budhathokidinesh]."
 
 User: "Can you provide a CV?"
-AI: "You can download Dinesh’s CV from the website here: [CV download link]."
+AI: "You can download Dinesh's CV from the website here: [CV download link]."
 
 User: "Can I hire him for a project?"
 AI: "Absolutely! You can reach out through the contact form to discuss potential projects or collaborations."
@@ -35,21 +37,26 @@ User: "Can I have his phone number?."
 AI: "Sorry to say, I am not allowed to provide his phone number but I can give you his email [dineshbudhathoki.dev@gmail.com]."`;
 
   try {
-    // Call your own backend API route (Vercel serverless function)
-    const response = await axios.post("/api/openAiChat", {
-      messages: [
-        { role: "system", content: systemPrompt },
-        ...messages.map((msg) => ({
-          role: msg.role === "user" ? "user" : "assistant",
-          content: msg.content,
-        })),
-      ],
+    const model = genAI.getGenerativeModel({
+      model: "gemini-2.0-flash",
+      generationConfig: {
+        maxOutputTokens: 1000,
+        temperature: 0.7,
+      },
     });
 
-    // The API route returns { reply: "..." }
-    return response.data.reply;
+    // Get only the latest user message (no need for full history)
+    const latestMessage =
+      messages.length > 0 ? messages[messages.length - 1].content : "";
+
+    // Combine system prompt with just the latest user message
+    const prompt = `${systemPrompt}\n\nUser: "${latestMessage}"\n\nAI:`;
+
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+
+    return response.text();
   } catch (error) {
-    console.error("Error calling OpenAI API:", error);
-    return "Sorry, I'm currently unable to respond. Please try again later.";
+    console.error("Error contacting Gemini API:", error);
   }
 }
