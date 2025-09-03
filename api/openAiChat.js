@@ -6,7 +6,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { messages } = await req.json(); // Vercel provides req.json()
+    const { messages } = req.body; // <-- Use req.body here
 
     const client = new OpenAI({
       apiKey: process.env.OPENAI_API_KEY,
