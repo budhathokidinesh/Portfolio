@@ -1,7 +1,5 @@
 import axios from "axios";
 
-// const DEEPSEEK_API_KEY = import.meta.env.VITE_DEEPSEEK_API_KEY;
-
 export async function sendChatToAI(messages) {
   const systemPrompt = `You are an AI assistant for Dinesh Budhathoki.
 Your goal is to provide polite, professional, and helpful answers about Dinesh Budhathoki, his skills, projects, experience, and contact information. Always ask for help at last.
@@ -37,8 +35,8 @@ User: "Can I have his phone number?."
 AI: "Sorry to say, I am not allowed to provide his phone number but I can give you his email [dineshbudhathoki.dev@gmail.com]."`;
 
   try {
-    // CHANGE: Call YOUR API endpoint instead of DeepSeek directly
-    const response = await axios.post("/api/deepseek-chat", {
+    // Call your own backend API route (Vercel serverless function)
+    const response = await axios.post("/api/openAiChat", {
       messages: [
         { role: "system", content: systemPrompt },
         ...messages.map((msg) => ({
@@ -48,10 +46,10 @@ AI: "Sorry to say, I am not allowed to provide his phone number but I can give y
       ],
     });
 
-    // CHANGE: Adjust how you extract the response
-    return response.data.choices[0].message.content;
+    // The API route returns { reply: "..." }
+    return response.data.reply;
   } catch (error) {
-    console.error("Error calling DeepSeek API:", error);
+    console.error("Error calling OpenAI API:", error);
     return "Sorry, I'm currently unable to respond. Please try again later.";
   }
 }
