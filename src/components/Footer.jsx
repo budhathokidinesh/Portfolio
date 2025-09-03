@@ -51,7 +51,7 @@ const Footer = () => {
                 <FaTwitter className="size-10 hover:text-yellow-400 cursor-pointer" />
               </a>
               <a
-                href="https://github.com/budhathokidinesh"
+                href="https://linkedin.com/in/dineshbudhathoki"
                 target="_blank"
                 rel="noopener noreferrer"
               >

@@ -50,7 +50,7 @@ const ContactMe = () => {
           </a>
 
           <a
-            href="www.linkedin.com/in/dineshbudhathoki"
+            href="https://linkedin.com/in/dineshbudhathoki"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 text-gray-200 hover:text-yellow-400 transition"
