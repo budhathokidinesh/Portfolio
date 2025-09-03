@@ -1,11 +1,18 @@
 {
+  "version": 3,
   "routes": [
     {
-      "handle": "filesystem"
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
     },
     {
       "src": "/(.*)",
       "dest": "/index.html"
     }
-  ]
+  ],
+  "functions": {
+    "api/deepseek-chat.js": {
+      "runtime": "nodejs18.x"
+    }
+  }
 }

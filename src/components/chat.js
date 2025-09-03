@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const DEEPSEEK_API_KEY = import.meta.env.VITE_DEEPSEEK_API_KEY;
+// const DEEPSEEK_API_KEY = import.meta.env.VITE_DEEPSEEK_API_KEY;
 
 export async function sendChatToAI(messages) {
   const systemPrompt = `You are an AI assistant for Dinesh Budhathoki.
@@ -37,27 +37,18 @@ User: "Can I have his phone number?."
 AI: "Sorry to say, I am not allowed to provide his phone number but I can give you his email [dineshbudhathoki.dev@gmail.com]."`;
 
   try {
-    const response = await axios.post(
-      "https://api.deepseek.com/chat/completions",
-      {
-        model: "deepseek-chat",
-        messages: [
-          { role: "system", content: systemPrompt },
-          ...messages.map((msg) => ({
-            role: msg.role === "user" ? "user" : "assistant",
-            content: msg.content,
-          })),
-        ],
-        stream: false,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${DEEPSEEK_API_KEY}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    // CHANGE: Call YOUR API endpoint instead of DeepSeek directly
+    const response = await axios.post("/api/deepseek-chat", {
+      messages: [
+        { role: "system", content: systemPrompt },
+        ...messages.map((msg) => ({
+          role: msg.role === "user" ? "user" : "assistant",
+          content: msg.content,
+        })),
+      ],
+    });
 
+    // CHANGE: Adjust how you extract the response
     return response.data.choices[0].message.content;
   } catch (error) {
     console.error("Error calling DeepSeek API:", error);
