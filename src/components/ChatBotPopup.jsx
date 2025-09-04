@@ -18,7 +18,9 @@ const ChatBotPopup = () => {
             className="w-full h-full rounded-full object-cover border-2 border-white"
           />
 
-          <span className="absolute top-0 right-0 block w-4 h-4 bg-green-500 border-2 border-white rounded-full" />
+          <span className="absolute top-0 right-0 block w-3.5 h-3.5 bg-green-500 border-2 border-white rounded-full">
+            <span className="absolute inline-flex w-full h-full rounded-full bg-green-500 opacity-75 animate-ping"></span>
+          </span>
         </div>
       </button>
 

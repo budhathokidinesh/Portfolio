@@ -1,6 +1,9 @@
+import { useState } from "react";
 import dbImage from "../assets/db.jpg";
+import ChatBot from "./ChatBot";
 
 const AboutMe = () => {
+  const [open, setOpen] = useState(false);
   return (
     <section
       id="about"
@@ -46,14 +49,22 @@ const AboutMe = () => {
           </div>
           <div className="mt-5 flex flex-wrap gap-3 justify-center">
             {/* Hire Me button */}
-            <span className="bg-yellow-400 text-black px-4 py-2 rounded-full text-sm shadow hover:bg-yellow-500 transition hover:cursor-pointer">
+            <a
+              href="/Dinesh.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-yellow-400 text-black px-4 py-2 rounded-full text-sm shadow hover:bg-yellow-500 transition hover:cursor-pointer"
+            >
               Hire Me
-            </span>
+            </a>
 
             {/* Chat With Me button */}
-            <span className="bg-cyan-400 text-black px-4 py-2 rounded-full text-sm shadow hover:bg-cyan-500 transition hover:cursor-pointer">
+            <button
+              className="bg-cyan-400 text-black px-4 py-2 rounded-full text-sm shadow hover:bg-cyan-500 transition hover:cursor-pointer"
+              onClick={() => setOpen(true)}
+            >
               Chat With Me
-            </span>
+            </button>
           </div>
         </div>
         {/* Profile Image */}
@@ -65,6 +76,7 @@ const AboutMe = () => {
           />
         </div>
       </div>
+      <ChatBot isOpen={open} onOpenChange={setOpen} />
     </section>
   );
 };
