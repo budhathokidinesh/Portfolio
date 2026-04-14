@@ -1,6 +1,4 @@
-import { useState } from "react";
 import dbImage from "../assets/db.jpg";
-import ChatBot from "./ChatBot";
 import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
 
 const stats = [
@@ -9,11 +7,16 @@ const stats = [
   { value: "10+", label: "Technologies" },
 ];
 
-const tags = ["JavaScript", "React", "Node.js", "MongoDB", "Tailwind CSS", "Agentic AI"];
+const tags = [
+  "JavaScript",
+  "React",
+  "Node.js",
+  "MongoDB",
+  "Tailwind CSS",
+  "Agentic AI",
+];
 
 const AboutMe = () => {
-  const [open, setOpen] = useState(false);
-
   return (
     <section
       id="about"
@@ -24,7 +27,6 @@ const AboutMe = () => {
       <div className="absolute bottom-0 right-1/4 w-72 h-72 bg-cyan-400/5 rounded-full blur-3xl pointer-events-none" />
 
       <div className="container mx-auto max-w-5xl flex flex-col md:flex-row items-center gap-16">
-
         {/* Profile Image */}
         <div className="flex-shrink-0 flex flex-col items-center gap-5">
           <div className="relative">
@@ -45,9 +47,21 @@ const AboutMe = () => {
           {/* Social links */}
           <div className="flex gap-4">
             {[
-              { icon: <FaGithub size={18} />, href: "https://github.com/budhathokidinesh", label: "GitHub" },
-              { icon: <FaLinkedin size={18} />, href: "https://linkedin.com/in/dineshbudhathoki", label: "LinkedIn" },
-              { icon: <FaEnvelope size={18} />, href: "mailto:dineshbudhathoki.dev@gmail.com", label: "Email" },
+              {
+                icon: <FaGithub size={18} />,
+                href: "https://github.com/budhathokidinesh",
+                label: "GitHub",
+              },
+              {
+                icon: <FaLinkedin size={18} />,
+                href: "https://linkedin.com/in/dineshbudhathoki",
+                label: "LinkedIn",
+              },
+              {
+                icon: <FaEnvelope size={18} />,
+                href: "mailto:dineshbudhathoki.dev@gmail.com",
+                label: "Email",
+              },
             ].map(({ icon, href, label }) => (
               <a
                 key={label}
@@ -75,10 +89,15 @@ const AboutMe = () => {
             </span>
           </h1>
           <p className="text-gray-400 text-base md:text-lg leading-relaxed mb-6 max-w-xl">
-            A passionate <span className="text-gray-200 font-medium">MERN Stack Developer</span> who
-            loves building modern, scalable, and user-friendly web applications
-            with <span className="text-gray-200 font-medium">AI integration</span>. My goal is to craft
-            digital experiences that are both functional and beautiful.
+            A passionate{" "}
+            <span className="text-gray-200 font-medium">
+              Full Stack Developer
+            </span>{" "}
+            who loves building modern, scalable, and user-friendly web
+            applications with{" "}
+            <span className="text-gray-200 font-medium">AI integration</span>.
+            My goal is to craft digital experiences that are both functional and
+            beautiful.
           </p>
 
           {/* Stats */}
@@ -113,17 +132,15 @@ const AboutMe = () => {
             >
               Download CV
             </a>
-            <button
-              onClick={() => setOpen(true)}
+            <a
+              href="/#contact"
               className="px-6 py-2.5 rounded-full bg-transparent border border-gray-600 text-gray-300 text-sm font-semibold hover:border-yellow-400 hover:text-yellow-400 transition-all duration-200"
             >
-              Chat With Me
-            </button>
+              Contact Me
+            </a>
           </div>
         </div>
       </div>
-
-      <ChatBot isOpen={open} onOpenChange={setOpen} />
     </section>
   );
 };

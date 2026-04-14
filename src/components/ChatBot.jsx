@@ -1,217 +1,164 @@
 import { useState, useEffect, useLayoutEffect, useRef } from "react";
 import { IoMdSend } from "react-icons/io";
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Card, CardContent } from "@/components/ui/card";
-import { Textarea } from "@/components/ui/textarea";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { RxCross2 } from "react-icons/rx";
 import { sendChatToAI } from "./chat.js";
 import db from "../assets/db.jpg";
 
+const formatTime = () =>
+  new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+
+const getInitialBotMessage = () => ({
+  from: "bot",
+  text: "Hi! I'm Dinesh's AI assistant. Ask me anything about his skills, projects, or experience.",
+  time: formatTime(),
+});
+
 const ChatBot = ({ isOpen, onOpenChange }) => {
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState([getInitialBotMessage()]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [typing, setTyping] = useState(false);
   const [cooldown, setCooldown] = useState(false);
   const scrollRef = useRef(null);
+  const inputRef = useRef(null);
 
-  const getInitialBotMessage = () => ({
-    from: "bot",
-    text: `Hi, I am AI assistant for Dinesh Budhathoki. How can I help you today?`,
-    time: new Date().toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-    }),
-  });
+  useEffect(() => {
+    if (isOpen) setTimeout(() => inputRef.current?.focus(), 100);
+  }, [isOpen]);
+
+  useLayoutEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
+    }
+  }, [messages]);
 
   const sendMessage = async () => {
-    if (!input.trim()) return;
+    if (!input.trim() || loading || cooldown) return;
 
-    const currentTime = new Date().toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-    const newMessages = [
-      ...messages,
-      { from: "user", text: input, time: currentTime },
-    ];
-
-    setMessages(newMessages);
+    const userMsg = { from: "user", text: input.trim(), time: formatTime() };
+    const newMessages = [...messages, userMsg];
+    setMessages([...newMessages, { from: "bot", text: "__typing__", time: "" }]);
     setInput("");
     setLoading(true);
-    setTyping(true);
-
-    // Add a temporary "typing" message
-    const botTypingMessage = { from: "bot", text: "typing...", time: "" };
-    setMessages((prev) => [...prev, botTypingMessage]);
 
     try {
       const aiResponse = await sendChatToAI(
-        newMessages.map((m) => ({
-          role: m.from === "user" ? "user" : "model",
-          content: m.text,
-        }))
+        newMessages.map((m) => ({ role: m.from === "user" ? "user" : "model", content: m.text }))
       );
-
-      const botTime = new Date().toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-      });
-
-      // Replace "typing..." with real response
-      setMessages((prev) => [
-        ...prev.slice(0, -1),
-        { from: "bot", text: aiResponse, time: botTime },
-      ]);
+      setMessages([...newMessages, { from: "bot", text: aiResponse, time: formatTime() }]);
     } catch (err) {
-      console.error(err);
-      setMessages((prev) => [
-        ...prev.slice(0, -1),
-        {
-          from: "bot",
-          text: "Error contacting AI.",
-          time: new Date().toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-          }),
-        },
-      ]);
+      setMessages([...newMessages, { from: "bot", text: err.message || "Failed to get a response. Please try again.", time: formatTime() }]);
     } finally {
       setLoading(false);
-      setTyping(false);
       setCooldown(true);
       setTimeout(() => setCooldown(false), 4000);
     }
   };
-  useEffect(() => {
-    // Initialize with bot message if messages are empty
-    if (messages.length === 0) {
-      setMessages([getInitialBotMessage()]);
-    }
-  }, []);
-  // Scroll to bottom
-  useLayoutEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTo({
-        top: scrollRef.current.scrollHeight,
-        behavior: "smooth",
-      });
-    }
-  }, [messages]);
 
-  const clearChat = () => setMessages([getInitialBotMessage()]);
+  if (!isOpen) return null;
 
   return (
-    <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px] p-0">
-        <DialogHeader className="p-4 rounded-md bg-gradient-to-r from-blue-500 to-purple-600">
-          <DialogTitle className="text-center text-white">
-            💬 Chat with Dinesh
-          </DialogTitle>
-          <DialogDescription className="text-center text-white">
-            Ask me anything about my work/projects
-          </DialogDescription>
-        </DialogHeader>
+    <div className="fixed bottom-24 right-6 z-50 w-[350px] sm:w-[380px] max-h-[calc(100vh-120px)] flex flex-col rounded-2xl overflow-hidden shadow-2xl shadow-black/50 border border-gray-700/60 bg-gray-900 animate-in fade-in slide-in-from-bottom-4 duration-200">
 
-        {/* Chat Area */}
-        <Card className="border-0 shadow-none">
-          <CardContent className="p-0">
-            <div
-              ref={scrollRef}
-              className="h-[300px] w-full p-4 overflow-y-auto flex flex-col gap-3"
-            >
-              {messages.map((msg, idx) => (
-                <div key={idx} className="flex flex-col">
-                  <div
-                    className={`flex items-start gap-2 ${
-                      msg.from === "user" ? "justify-end" : "justify-start"
-                    }`}
-                  >
-                    {msg.from === "bot" && (
-                      <Avatar>
-                        <AvatarImage src={db} alt="AI Bot" />
-                        <AvatarFallback>AI</AvatarFallback>
-                      </Avatar>
-                    )}
-                    <div
-                      className={`px-2 py-1 rounded-lg text-sm max-w-[75%] break-words ${
-                        msg.from === "user"
-                          ? "bg-blue-600 text-white"
-                          : "bg-gray-200 text-gray-900"
-                      }`}
-                    >
-                      {msg.text === "typing..." ? <TypingDots /> : msg.text}
-                    </div>
-                  </div>
-                  <div
-                    className={`text-xs text-gray-500 mt-1 ${
-                      msg.from === "user" ? "text-right" : "text-left"
-                    }`}
-                  >
-                    {msg.time}
-                  </div>
-                </div>
-              ))}
+      {/* Header */}
+      <div className="flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-gray-800 to-gray-900 border-b border-gray-700/60">
+        <div className="relative flex-shrink-0">
+          <img src={db} alt="Dinesh" className="w-9 h-9 rounded-full object-cover border-2 border-yellow-400/50" />
+          <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-400 rounded-full border-2 border-gray-900" />
+        </div>
+        <div className="flex-1 min-w-0">
+          <p className="text-white font-semibold text-sm">Dinesh's Assistant</p>
+          <p className="text-green-400 text-xs">Online</p>
+        </div>
+        <div className="flex items-center gap-1">
+          <button
+            onClick={() => setMessages([getInitialBotMessage()])}
+            className="w-7 h-7 flex items-center justify-center rounded-full text-gray-400 hover:text-rose-400 hover:bg-gray-700 transition-all duration-200"
+            title="Clear chat"
+          >
+            <RiDeleteBin6Line size={14} />
+          </button>
+          <button
+            onClick={() => onOpenChange(false)}
+            className="w-7 h-7 flex items-center justify-center rounded-full text-gray-400 hover:text-white hover:bg-gray-700 transition-all duration-200"
+            title="Close"
+          >
+            <RxCross2 size={16} />
+          </button>
+        </div>
+      </div>
+
+      {/* Messages */}
+      <div
+        ref={scrollRef}
+        className="flex-1 h-[320px] overflow-y-auto px-4 py-4 flex flex-col gap-4 bg-gray-950/50"
+      >
+        {messages.map((msg, idx) => (
+          <div key={idx} className={`flex items-end gap-2 ${msg.from === "user" ? "justify-end" : "justify-start"}`}>
+            {msg.from === "bot" && (
+              <img src={db} alt="bot" className="w-7 h-7 rounded-full object-cover flex-shrink-0 mb-4" />
+            )}
+            <div className={`flex flex-col gap-1 max-w-[78%] ${msg.from === "user" ? "items-end" : "items-start"}`}>
+              <div
+                className={`px-3.5 py-2.5 rounded-2xl text-sm leading-relaxed break-words ${
+                  msg.from === "user"
+                    ? "bg-yellow-400 text-gray-900 rounded-br-sm font-medium"
+                    : "bg-gray-800 text-gray-200 rounded-bl-sm border border-gray-700/50"
+                }`}
+              >
+                {msg.text === "__typing__" ? <TypingDots /> : msg.text}
+              </div>
+              {msg.time && (
+                <span className="text-[10px] text-gray-600 px-1">{msg.time}</span>
+              )}
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        ))}
+      </div>
 
-        {/* Input Area */}
-        <div className="relative w-full p-2">
-          <Textarea
-            placeholder="Type your message..."
-            className="w-full pr-12 resize-none"
+      {/* Input */}
+      <div className="px-3 py-3 bg-gray-900 border-t border-gray-700/60">
+        <div className="flex items-end gap-2 bg-gray-800 border border-gray-700 rounded-xl px-3 py-2 focus-within:border-yellow-400/50 transition-colors duration-200">
+          <textarea
+            ref={inputRef}
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            rows={1}
             onKeyDown={(e) => {
               if (e.key === "Enter" && !e.shiftKey) {
                 e.preventDefault();
-                if (!loading && !cooldown) sendMessage();
+                sendMessage();
               }
             }}
+            placeholder="Ask me anything..."
+            rows={1}
+            className="flex-1 bg-transparent text-sm text-white placeholder-gray-500 resize-none focus:outline-none max-h-24 leading-relaxed"
           />
-          <Button
+          <button
             onClick={sendMessage}
-            disabled={loading || cooldown}
-            className="absolute right-2 bottom-2 p-2 rounded-full bg-transparent hover:bg-gray-200 text-blue-600"
+            disabled={loading || cooldown || !input.trim()}
+            className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full bg-yellow-400 text-gray-900 hover:bg-yellow-300 disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-200 mb-0.5"
           >
-            <IoMdSend size={20} />
-          </Button>
+            <IoMdSend size={15} />
+          </button>
         </div>
-
-        {/* Footer */}
-        <DialogFooter className="p-4 border-t flex justify-between gap-2">
-          <Button variant="destructive" onClick={clearChat}>
-            Clear Chat
-          </Button>
-          <DialogClose asChild>
-            <Button variant="outline">End Chat</Button>
-          </DialogClose>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+        {cooldown && (
+          <p className="text-[10px] text-gray-600 text-center mt-1.5">Please wait a moment before sending again…</p>
+        )}
+      </div>
+    </div>
   );
 };
 
 export default ChatBot;
 
-// TypingDots component
 const TypingDots = () => (
-  <span className="inline-block w-20 h-2">
-    <p class="text-gray-700 font-medium">
-      Thinking<span class="animate-pulse">.</span>
-      <span class="animate-pulse [animation-delay:200ms]">.</span>
-      <span class="animate-pulse [animation-delay:400ms]">.</span>
-    </p>
+  <span className="flex items-center gap-1 py-0.5">
+    {[0, 150, 300].map((delay) => (
+      <span
+        key={delay}
+        className="w-1.5 h-1.5 rounded-full bg-gray-400 animate-bounce"
+        style={{ animationDelay: `${delay}ms` }}
+      />
+    ))}
   </span>
 );

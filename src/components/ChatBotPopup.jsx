@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Chatbot from "./ChatBot.jsx";
+import ChatBot from "./ChatBot.jsx";
 import db from "../assets/db.jpg";
 
 const ChatBotPopup = () => {
@@ -9,22 +9,26 @@ const ChatBotPopup = () => {
     <>
       <button
         onClick={() => setOpen(true)}
-        className="fixed bottom-6 right-6 z-50 p-0 rounded-full shadow-lg hover:scale-105 transition-transform"
+        className={`fixed bottom-6 right-6 z-50 group transition-all duration-200 ${open ? "opacity-0 pointer-events-none scale-75" : "opacity-100 scale-100"}`}
+        aria-label="Open chat"
       >
-        <div className="relative w-10 h-10 hover:cursor-pointer">
+        <div className="relative w-13 h-13">
+          {/* Pulse ring */}
+          {!open && (
+            <span className="absolute inset-0 rounded-full bg-yellow-400/30 animate-ping" />
+          )}
           <img
             src={db}
-            alt="You"
-            className="w-full h-full rounded-full object-cover border-2 border-white"
+            alt="Chat with Dinesh"
+            className={`w-13 h-13 rounded-full object-cover border-2 transition-all duration-300 shadow-lg shadow-black/40
+              ${open ? "border-yellow-400 scale-95" : "border-white group-hover:border-yellow-400 group-hover:scale-105"}`}
           />
-
-          <span className="absolute top-0 right-0 block w-3.5 h-3.5 bg-green-500 border-2 border-white rounded-full">
-            <span className="absolute inline-flex w-full h-full rounded-full bg-green-500 opacity-75 animate-ping"></span>
-          </span>
+          {/* Online dot */}
+          <span className="absolute bottom-0.5 right-0.5 w-3 h-3 bg-green-400 border-2 border-gray-900 rounded-full" />
         </div>
       </button>
 
-      <Chatbot isOpen={open} onOpenChange={setOpen} />
+      <ChatBot isOpen={open} onOpenChange={setOpen} />
     </>
   );
 };
