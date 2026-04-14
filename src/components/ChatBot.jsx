@@ -21,6 +21,7 @@ const ChatBot = ({ isOpen, onOpenChange }) => {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [typing, setTyping] = useState(false);
+  const [cooldown, setCooldown] = useState(false);
   const scrollRef = useRef(null);
 
   const getInitialBotMessage = () => ({
@@ -87,6 +88,8 @@ const ChatBot = ({ isOpen, onOpenChange }) => {
     } finally {
       setLoading(false);
       setTyping(false);
+      setCooldown(true);
+      setTimeout(() => setCooldown(false), 4000);
     }
   };
   useEffect(() => {
@@ -173,13 +176,13 @@ const ChatBot = ({ isOpen, onOpenChange }) => {
             onKeyDown={(e) => {
               if (e.key === "Enter" && !e.shiftKey) {
                 e.preventDefault();
-                sendMessage();
+                if (!loading && !cooldown) sendMessage();
               }
             }}
           />
           <Button
             onClick={sendMessage}
-            disabled={loading}
+            disabled={loading || cooldown}
             className="absolute right-2 bottom-2 p-2 rounded-full bg-transparent hover:bg-gray-200 text-blue-600"
           >
             <IoMdSend size={20} />

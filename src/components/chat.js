@@ -43,7 +43,7 @@ AI: "He lives in Perth, WA, Australia"
 
   try {
     const model = genAI.getGenerativeModel({
-      model: "gemini-2.0-flash",
+      model: "gemini-3-flash-preview",
       generationConfig: {
         maxOutputTokens: 1000,
         temperature: 0.7,
@@ -63,5 +63,11 @@ AI: "He lives in Perth, WA, Australia"
     return response.text();
   } catch (error) {
     console.error("Error contacting Gemini API:", error);
+    if (error?.status === 429 || error?.message?.includes("429")) {
+      throw new Error(
+        "Too many requests. Please wait a few seconds and try again.",
+      );
+    }
+    throw new Error("Failed to get a response. Please try again.");
   }
 }

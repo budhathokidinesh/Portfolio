@@ -1,88 +1,95 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import dbImage from "../assets/db.jpg";
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
 import { TiThMenu } from "react-icons/ti";
-import { RxCross2 } from "react-icons/rx";
 import MobileMenu from "./MobileMenu";
+
+const navLinks = [
+  { label: "About", href: "/#about" },
+  { label: "Skills", href: "/#skills" },
+  { label: "Education", href: "/#education" },
+  { label: "Projects", to: "/projects" },
+  { label: "Blogs", to: "/blogs" },
+  { label: "Contact", href: "/#contact" },
+];
 
 const Header = () => {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <header className="sticky top-0 z-50 bg-gradient-to-r from-gray-900 via-gray-800 to-black shadow-md">
+    <header
+      className={`sticky top-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? "bg-gray-900 shadow-lg shadow-black/40"
+          : "bg-gray-900/95"
+      }`}
+    >
       <div className="container mx-auto flex justify-between items-center h-16 px-6">
         {/* Brand */}
-        <div className="flex items-center gap-3">
-          <Link to="/">
+        <Link to="/" className="flex items-center gap-3 group">
+          <div className="relative">
+            <div className="absolute inset-0 rounded-full bg-yellow-400 blur-sm opacity-0 group-hover:opacity-60 transition-opacity duration-300" />
             <img
               src={dbImage}
               alt="Dinesh"
-              className="w-10 h-10 object-cover rounded-full border-2 "
+              className="relative w-10 h-10 object-cover rounded-full border-2 border-yellow-400/50 group-hover:border-yellow-400 transition-colors duration-300"
             />
-          </Link>
+          </div>
+          <span className="text-lg font-bold text-gray-200 tracking-wide group-hover:text-yellow-400 transition-colors duration-300">
+            Dinesh<span className="text-yellow-400">.</span>
+          </span>
+        </Link>
 
-          <Link
-            to="/"
-            className="text-xl font-bold text-gray-300 tracking-wide hover:text-yellow-400 transition"
+        {/* Desktop Nav */}
+        <nav className="hidden md:flex items-center gap-1">
+          {navLinks.map(({ label, href, to }) => {
+            const isActive = to && location.pathname === to;
+            const linkClass = `relative px-3 py-1.5 text-sm font-medium transition-colors duration-200 rounded-md
+              ${isActive ? "text-yellow-400" : "text-gray-400 hover:text-gray-100"}
+              group`;
+
+            return to ? (
+              <Link key={label} to={to} className={linkClass}>
+                {label}
+                <span
+                  className={`absolute bottom-0 left-3 right-3 h-px bg-yellow-400 transition-transform duration-300 origin-left
+                    ${isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
+                />
+              </Link>
+            ) : (
+              <a key={label} href={href} className={linkClass}>
+                {label}
+                <span className="absolute bottom-0 left-3 right-3 h-px bg-yellow-400 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+              </a>
+            );
+          })}
+
+          <a
+            href="/#contact"
+            className="ml-3 px-4 py-1.5 text-sm font-semibold rounded-full bg-yellow-400 text-gray-900 hover:bg-yellow-300 transition-colors duration-200 shadow-md shadow-yellow-400/20"
           >
-            Dinesh
-          </Link>
-        </div>
+            Hire Me
+          </a>
+        </nav>
 
-        {/* Navigation */}
-        <ul className="hidden md:flex space-x-5 text-sm text-gray-300 font-medium">
-          <li>
-            <a href="/#about" className="hover:text-yellow-400 cursor-pointer">
-              About Me
-            </a>
-          </li>
-          <li>
-            <a href="/#skills" className="hover:text-yellow-400 cursor-pointer">
-              Skills
-            </a>
-          </li>
-          <li>
-            <a
-              href="/#education"
-              className="hover:text-yellow-400 cursor-pointer"
-            >
-              Education
-            </a>
-          </li>
-          <li>
-            <Link
-              to="/projects"
-              className="hover:text-yellow-400 cursor-pointer"
-            >
-              Projects
-            </Link>
-          </li>
-          <li>
-            <Link to="/blogs" className="hover:text-yellow-400 cursor-pointer">
-              Blogs
-            </Link>
-          </li>
-          <li>
-            <a
-              href="/#contact"
-              className="hover:text-yellow-400 cursor-pointer"
-            >
-              Contact
-            </a>
-          </li>
-        </ul>
-
-        {/* Mobile Menu (optional for future) */}
-        <div className="md:hidden">
-          <button
-            onClick={() => setOpen(true)}
-            className="md:hidden text-gray-300 hover:text-yellow-400"
-          >
-            <TiThMenu size={28} />
-          </button>
-        </div>
+        {/* Mobile toggle */}
+        <button
+          onClick={() => setOpen(true)}
+          className="md:hidden text-gray-300 hover:text-yellow-400 transition-colors"
+          aria-label="Open menu"
+        >
+          <TiThMenu size={26} />
+        </button>
       </div>
+
       <MobileMenu isOpen={open} onClose={() => setOpen(false)} />
     </header>
   );
