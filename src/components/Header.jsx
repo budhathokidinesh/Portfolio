@@ -27,9 +27,7 @@ const Header = () => {
   return (
     <header
       className={`sticky top-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-gray-900 shadow-lg shadow-black/40"
-          : "bg-gray-900/95"
+        scrolled ? "bg-gray-900 shadow-lg shadow-black/40" : "bg-gray-900/95"
       }`}
     >
       <div className="container mx-auto flex justify-between items-center h-16 px-6">
@@ -44,7 +42,7 @@ const Header = () => {
             />
           </div>
           <span className="text-lg font-bold text-gray-200 tracking-wide group-hover:text-yellow-400 transition-colors duration-300">
-            Dinesh<span className="text-yellow-400">.</span>
+            Dinesh
           </span>
         </Link>
 

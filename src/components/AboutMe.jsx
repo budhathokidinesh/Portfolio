@@ -85,7 +85,7 @@ const AboutMe = () => {
           <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-4 leading-tight">
             Hi, I'm{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-300">
-              Dinesh
+              Dinesh Budhathoki
             </span>
           </h1>
           <p className="text-gray-400 text-base md:text-lg leading-relaxed mb-6 max-w-xl">
