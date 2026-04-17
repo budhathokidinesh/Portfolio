@@ -13,13 +13,32 @@ const projectData = [
       "Full Stack MERN E-Commerce application with Stripe payments and AI integration.",
     image: fitaura,
     link: "https://fitaura.dineshbudhathoki.com",
-    github: "https://github.com/budhathokidinesh?tab=repositories",
-    tags: ["React", "Redux", "Shadcn", "Node.js", "MongoDB", "Stripe", "OpenAI"],
+    github: "https://github.com/budhathokidinesh/E-Commerce-Client-Front",
+    tags: [
+      "React",
+      "Redux",
+      "Shadcn",
+      "Node.js",
+      "MongoDB",
+      "Stripe",
+      "OpenAI",
+    ],
+    type: "Full Stack",
+  },
+  {
+    title: "Fish and Chips",
+    description:
+      "Full Stack MERN Food ordering application with Stripe payment system.",
+    image: fitaura,
+    link: "https://ishikiya-front.vercel.app/",
+    github: "https://github.com/budhathokidinesh/Ishikiya-front",
+    tags: ["React", "Redux", "Shadcn", "Node.js", "MongoDB", "Stripe"],
     type: "Full Stack",
   },
   {
     title: "Portfolio Website",
-    description: "Personal portfolio built with React, Tailwind CSS and Gemini AI chatbot.",
+    description:
+      "Personal portfolio built with React, Tailwind CSS and Gemini AI chatbot.",
     image: portfolio,
     link: "https://www.dineshbudhathoki.com",
     github: "https://github.com/budhathokidinesh?tab=repositories",
@@ -57,8 +76,7 @@ const projectData = [
   },
   {
     title: "Time Management",
-    description:
-      "Blog app with full CRUD operations and JWT authentication.",
+    description: "Blog app with full CRUD operations and JWT authentication.",
     image: time,
     link: "https://react-time-management-tawny.vercel.app",
     github: "https://github.com/budhathokidinesh?tab=repositories",
@@ -127,7 +145,9 @@ const Projects = () => {
                   </a>
                 </div>
                 {/* Type badge */}
-                <span className={`absolute top-3 left-3 text-xs font-semibold px-2.5 py-1 rounded-full border ${typeColor[project.type]}`}>
+                <span
+                  className={`absolute top-3 left-3 text-xs font-semibold px-2.5 py-1 rounded-full border ${typeColor[project.type]}`}
+                >
                   {project.type}
                 </span>
               </div>
