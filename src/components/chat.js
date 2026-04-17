@@ -21,6 +21,15 @@ About Dinesh Budhathoki:
 - Loves working in agile teams and building AI-powered web applications
 - Has a good sense of humour and enjoys crafting clean, user-friendly digital experiences
 
+Work experience:
+- Full Stack Developer Intern at Next Zen Talent (March 2025 – Present): building and maintaining full-stack web applications
+- Full Stack Developer Trainee at Dented Code Academy (Sept 2024 – March 2025):
+  • Served as Scrum Master, facilitating Agile ceremonies (sprint planning, stand-ups, reviews, retrospectives)
+  • Led teams as Tech Lead and QA Lead, achieving 95% sprint goal completion rate
+  • Coordinated GitHub workflows and CI/CD pipelines for AWS deployments
+  • Implemented automated testing and deployment pipelines, contributing to 99.9% system uptime
+  • Integrated Stripe payment gateway and AI chatbot to enhance platform functionality
+
 Technical skills:
 Frontend: React, JavaScript, TypeScript, HTML5, CSS3, Tailwind CSS, Bootstrap, Redux, Shadcn UI
 Backend: Node.js, Express.js, MongoDB, MySQL, Python, JWT Authentication, Nodemailer

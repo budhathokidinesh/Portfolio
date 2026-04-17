@@ -41,7 +41,7 @@ const projectData = [
       "Personal portfolio built with React, Tailwind CSS and Gemini AI chatbot.",
     image: portfolio,
     link: "https://www.dineshbudhathoki.com",
-    github: "https://github.com/budhathokidinesh?tab=repositories",
+    github: "https://github.com/budhathokidinesh/Portfolio",
     tags: ["React", "Tailwind", "Gemini AI"],
     type: "Frontend",
   },
@@ -94,7 +94,7 @@ const Projects = () => {
   return (
     <section
       id="projects"
-      className="relative bg-gradient-to-b from-black via-gray-900 to-black py-24 px-6 overflow-hidden"
+      className="relative bg-gradient-to-b from-black via-gray-900 to-black py-14 px-6 overflow-hidden"
     >
       <div className="absolute top-1/3 right-0 w-80 h-80 bg-yellow-400/5 rounded-full blur-3xl pointer-events-none" />
 

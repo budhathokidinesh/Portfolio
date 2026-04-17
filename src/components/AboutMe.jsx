@@ -20,7 +20,7 @@ const AboutMe = () => {
   return (
     <section
       id="about"
-      className="relative bg-gradient-to-b from-gray-900 via-gray-800 to-black py-24 px-6 overflow-hidden"
+      className="relative bg-gradient-to-b from-gray-900 via-gray-800 to-black py-14 px-6 overflow-hidden"
     >
       {/* Background accent blobs */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-yellow-400/5 rounded-full blur-3xl pointer-events-none" />

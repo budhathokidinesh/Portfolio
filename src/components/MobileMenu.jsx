@@ -4,6 +4,7 @@ import { RxCross2 } from "react-icons/rx";
 const navLinks = [
   { label: "About", href: "/#about" },
   { label: "Skills", href: "/#skills" },
+  { label: "Experience", href: "/#experience" },
   { label: "Education", href: "/#education" },
   { label: "Projects", to: "/projects" },
   { label: "Blogs", to: "/blogs" },

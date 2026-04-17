@@ -56,7 +56,7 @@ const Skills = () => {
   return (
     <section
       id="skills"
-      className="relative bg-gradient-to-b from-black via-gray-900 to-black py-24 px-6 overflow-hidden"
+      className="relative bg-gradient-to-b from-black via-gray-900 to-black py-14 px-6 overflow-hidden"
     >
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-yellow-400/5 rounded-full blur-3xl pointer-events-none" />
 

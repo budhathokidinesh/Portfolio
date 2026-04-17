@@ -50,7 +50,7 @@ const Footer = () => {
           {/* Brand */}
           <div className="flex flex-col gap-3">
             <h2 className="text-xl font-extrabold text-white">
-              Dinesh<span className="text-yellow-400">.</span>
+              Dinesh Budhathoki
             </h2>
             <p className="text-gray-400 text-sm leading-relaxed max-w-xs">
               Full Stack Developer specialising in MERN stack and AI-powered web
